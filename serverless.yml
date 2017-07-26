@@ -24,6 +24,7 @@ provider:
   region: ap-southeast-1
   profile: default
   memorySize: 512
+  timeout: 10
 
 # you can overwrite defaults here
 #  stage: dev
@@ -59,8 +60,23 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  create:
+  promoCreate:
     handler: handler.create
+    description: For admin to create promo codes
+    events:
+      - http:
+          path: promo_code/create
+          method: post
+          cors: true
+      
+
+  # promoRead:
+  #   handler: handler.read
+  #   description: For users to apply promo codes
+
+  # promoUpdate:
+  #   handler: handler.update
+  #   description: For admin to edit promo codes
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -93,7 +109,7 @@ functions:
 #    Define function environment variables here
 #    environment:
 #      variable2: value2
-
+  
 # you can add CloudFormation resource templates here
 #resources:
 #  Resources:
