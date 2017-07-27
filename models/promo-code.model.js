@@ -31,6 +31,4 @@ PromoCodeSchema.pre('save', function(next){
     next();
 })
 
-var PromoCode = mongoose.model('PromoCode', PromoCodeSchema);
-
-module.exports = PromoCode;
+module.exports = PromoCodeSchema;

@@ -68,6 +68,15 @@ functions:
           path: promo_code/create
           method: post
           cors: true
+
+  promoRead:
+    handler: handler.read
+    description: For admin/ users to see promo codes
+    events:
+      - http:
+          path: promo_code/read
+          method: get
+          cors: true
       
 
   # promoRead:
