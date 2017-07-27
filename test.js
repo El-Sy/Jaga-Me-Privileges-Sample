@@ -1,7 +1,7 @@
 var test_case = require('./test_case.json');
 var PromoCodeFunctions = require('./functions/promo-code');
 
-const promo = {
+const promo = JSON.stringify({
     visibility: "public",
     type: "in-house",
     code: "JAGA_NDP",
@@ -15,9 +15,10 @@ const promo = {
     partner_id: "HCA",
     partner_url: "www.hca.sg",
     tags: ["homecoming", "ndp", "national day"]
-}
+})
 
-var promo_code = "JAGA_NDP"
+// var promo_code = "JAGA_NDP"
+var false_code = "Whut"
 
 const createTest = function (req) {
     PromoCodeFunctions.create(req)
@@ -31,6 +32,7 @@ const createTest = function (req) {
 
 
 const queryTest = function (req) {
+    // console.log(PromoCodeFunctions.read)
      PromoCodeFunctions.read(req)
         .then(res => {
             return console.log("@read Test", res)
@@ -49,5 +51,5 @@ const queryTest = function (req) {
 
 
 
-// createTest(promo);
-queryTest(promo_code);
+createTest(promo);
+// queryTest(false_code);

@@ -1,18 +1,18 @@
 'use strict';
-var PromoCode = require('./functions/promo-code');
+var PromoCodeFunctions = require('./functions/promo-code');
 
 module.exports.create = (event, context, callback) => {
-  PromoCode.create(event.body)
+  PromoCodeFunctions.create(event.body)
     .then(res => {
       const response = {
         statusCode: 200,
         body: JSON.stringify({
           message: 'Success! Promo Code created!',
-          input: event,
+          input: res,
         }),
-      };
+      }
 
-      callback(null, response);
+      return callback(null, response);
     })
     .catch(err => {
       const error = {
@@ -22,7 +22,7 @@ module.exports.create = (event, context, callback) => {
         }),
       };
 
-      callback(null, response);
+      return callback(null, response);
     })
 
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
@@ -31,20 +31,42 @@ module.exports.create = (event, context, callback) => {
 
 module.exports.read = (event, context, callback) => {
   // console.log("event @ handler", event);
-  PromoCode.read(event.queryStringParameters.promo_code)
+  if (typeof event.queryStringParameters.promo_code === "undefined"){
+      const error = {
+        statusCode: 404,
+        body: JSON.stringify({
+          message: 'Wrong query parameters'
+        }),
+      };
+
+      return callback(null, error);
+  }
+  
+  PromoCodeFunctions.read(event.queryStringParameters.promo_code)
     .then(res => {
       console.log("at handler",res);
-      const response = {
+      if(res.length >= 1){
+      const responseSuccess = {
         statusCode: 200,
         body: JSON.stringify({
           message: 'Promo Code Found!',
           input: res,
         }),
       };
+      return callback(null, responseSuccess);
+      } else {
+        const responseFailure = {
+        statusCode: 404,
+        body: JSON.stringify({
+          message: 'Promo Code not Found!'
+        }),
+      };
+      return callback(null, responseFailure);
+      }
 
-      callback(null, response);
     })
     .catch(err => {
+      console.error(err.message)
       const error = {
         statusCode: 502,
         body: JSON.stringify({
@@ -52,7 +74,7 @@ module.exports.read = (event, context, callback) => {
         }),
       };
 
-      callback(null, response);
+      return callback(null, error);
     })
 
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
