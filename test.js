@@ -1,5 +1,5 @@
 var test_case = require('./test_case.json');
-var PromoCodeFunctions = require('./functions/promo-code');
+var PromoCodeFunctions = require('./libs/functions/promo-code');
 
 const promo = JSON.stringify({
     visibility: "public",
@@ -17,7 +17,7 @@ const promo = JSON.stringify({
     tags: ["homecoming", "ndp", "national day"]
 })
 
-// var promo_code = "JAGA_NDP"
+var promo_code = "HCA_JAGA"
 var false_code = "Whut"
 
 const createTest = function (req) {
@@ -51,5 +51,11 @@ const queryTest = function (req) {
 
 
 
-createTest(promo);
-// queryTest(false_code);
+// createTest(promo);
+queryTest(promo_code);
+setTimeout(function () {
+    queryTest(promo_code);
+}, 3000);
+setTimeout(function () {
+    queryTest(promo_code);
+}, 3000);

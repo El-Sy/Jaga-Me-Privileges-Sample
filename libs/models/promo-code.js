@@ -31,4 +31,4 @@ PromoCodeSchema.pre('save', function(next){
     next();
 })
 
-module.exports = PromoCodeSchema;
+module.exports = {PromoCodeSchema};
